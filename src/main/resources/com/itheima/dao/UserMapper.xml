@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper为映射的根节点-->
+<!-- mapper为映射的根节点，namespace指定Dao接口的完整类名
+    mybatis会依据这个接口动态创建一个实现类去实现这个接口，
+    而这个实现类是一个Mapper对象-->
+<mapper namespace="com.itheima.dao.UserMapper">
+    <!--id ="接口中的方法名">
+    parameterType="传入的参数类型"
+    resultType="返回实体类对象，使用包.类名"-->
+    <insert id="addUser">
+        insert into user (user_name, user_password, user_email, user_role, user_status)
+        values (#{name},#{password},#{email},'USER','0')
+    </insert>
+
+
+    <select id="findUser">
+        select * from user where user_email = #{email}
+    </select>
+
+    <!-- 修改用户信息    -->
+    <update id="editUser">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name.trim() != ''">
+                user_name = #{name},
+            </if>
+            <if test="email != null and email.trim() != ''">
+                user_email = #{email},
+            </if>
+            <if test="password != null and password.trim() != ''">
+                user_password = #{password},
+            </if>
+            <if test="role != null and role.trim() != ''">
+                user_role = #{role},
+            </if>
+            <if test="status != null and status.trim() != ''">
+                user_status = #{status},
+            </if>
+        </trim>
+        where user_id = #{id}
+    </update>
+</mapper>

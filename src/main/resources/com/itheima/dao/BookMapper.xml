@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper为映射的根节点-->
+<!-- mapper为映射的根节点，namespace指定Dao接口的完整类名
+    mybatis会依据这个接口动态创建一个实现类去实现这个接口，
+    而这个实现类是一个Mapper对象-->
+<mapper namespace="com.itheima.dao.BookMapper">
+    <!-- 修改图书信息    -->
+    <update id="editBook">
+        update book
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name.trim() != ''">
+                book_name = #{name},
+            </if>
+            <if test="isbn != null and isbn.trim() != ''">
+                book_isbn = #{isbn},
+            </if>
+            <if test="press != null and press.trim() != ''">
+                book_press = #{press},
+            </if>
+            <if test="pagination != null">
+                book_pagination = #{pagination},
+            </if>
+            <if test="price != null">
+                book_price = #{price},
+            </if>
+            <if test="author != null and author.trim() != ''">
+                book_author = #{author},
+            </if>
+            <if test="stockpile != null">
+                book_stockpile = #{stockpile},
+            </if>
+            <if test="status != null and status.trim() != ''">
+                book_status = #{status},
+            </if>
+        </trim>
+        where book_id = #{id}
+    </update>
+
+    <insert id="addBook">
+        insert into book (book_id, book_name, book_isbn, book_press, book_author, book_pagination,
+                          book_price, book_uploadtime, book_stockpile, book_status)
+        values (#{id}, #{name}, #{isbn}, #{press}, #{author}, #{pagination},
+                #{price}, #{uploadTime}, #{stockpile}, #{status})
+    </insert>
+
+    <!-- 确认归还图书信息    -->
+    <update id="returnConfirm">
+        update book
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">
+                book_name = #{name},
+            </if>
+            <if test="isbn != null">
+                book_isbn = #{isbn},
+            </if>
+            <if test="press != null">
+                book_press = #{press},
+            </if>
+            <if test="pagination != null">
+                book_pagination = #{pagination},
+            </if>
+            <if test="price != null">
+                book_price = #{price},
+            </if>
+            <if test="uploadTime != null">
+                book_uploadTime = #{name},
+            </if>
+            <if test="status != null">
+                book_status = #{status},
+            </if>
+            <if test="borrower != null">
+                book_borrower = #{borrower},
+            </if>
+            <if test="borrowTime != null">
+                book_borrowTime = #{borrowTime},
+            </if>
+            <if test="returnTime != null">
+                book_returnTime = #{returnTime},
+            </if>
+        </trim>
+        where book_name = #{id}
+    </update>
+
+</mapper>
