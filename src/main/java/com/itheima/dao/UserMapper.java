@@ -61,7 +61,7 @@ public interface UserMapper {
 
     @Select("        <script>\n" +
             "            select * from user\n"+
-            "            where user_status !='1' and user_id != #{id}"+
+            "            where user_id != #{id}"+
             "                <if test=\"name != null and name.trim() != ''\">\n" +
             "                    AND user_name like concat('%',#{name},'%')\n" +
             "                </if>\n" +

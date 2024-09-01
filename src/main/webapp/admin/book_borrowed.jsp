@@ -34,10 +34,10 @@
                 <c:choose>
                     <c:when test="${USER_SESSION.role == 'ADMIN'}">
                         借阅人：<input name="borrower" value="${search.borrower}">&nbsp&nbsp&nbsp&nbsp
-                        图书名称：<input name="name" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
+                        图书名称：<input name="bookname" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
                     </c:when>
                     <c:when test="${USER_SESSION.role == 'USER'}">
-                        图书名称：<input name="name" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
+                        图书名称：<input name="bookname" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
                     </c:when>
                 </c:choose>
 <%--                图书作者：<input name="author" value="${search.author}">&nbsp&nbsp&nbsp&nbsp--%>
@@ -90,7 +90,7 @@
 <%--                            <button type="button" class="btn bg-olive btn-xs" onclick="returnBook(${record.id})">归还--%>
 <%--                            </button>--%>
 <%--                        </c:if>--%>
-                        <c:if test="${record.status ==0}">
+                        <c:if test="${record.status == 0}">
                             <fmt:parseDate value="${record.remandTime}" pattern="yyyy-MM-dd" var="remandTime" />
                             <fmt:parseDate value="<%=LocalDate.now().toString()%>" pattern="yyyy-MM-dd" var="now" />
                             <c:if test="${not empty remandTime and not empty now and now.after(remandTime)}">

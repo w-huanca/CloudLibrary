@@ -45,7 +45,6 @@ public class BookController {
     public Result<Book> findBookById(String id) {
         try {
             Book book = bookService.findById(id);
-//            System.out.println(book);
             if (book != null) {
                 return new Result<Book>(true, "查询图书成功!", book);
             }
@@ -71,7 +70,7 @@ public class BookController {
             if (integer > 0) {
                 return new Result(true, "借阅图书成功!");
             }
-            return new Result(false, "借阅图书失败!");
+            return new Result(false, "借阅图书失败!请联系管理员查看库存量");
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "借阅图书失败!");
@@ -118,10 +117,8 @@ public class BookController {
     @ResponseBody
     @RequestMapping("/editBook")
     public Result editBook(Book book){
-        System.out.println(book);
         try {
-            Record record = new Record();
-            Integer i = bookService.editBook(book,record);
+            Integer i = bookService.editBook(book);
             if (i != 1) return new Result(false,"编辑失败!");
             return new Result(true,"编辑成功!");
         } catch (Exception e) {
@@ -143,7 +140,7 @@ public class BookController {
             return new Result(false,"删除失败");
         }
     }
-
+    // 查询当前借阅
     @RequestMapping("/searchBorrowed")
     public ModelAndView searchBorrowed(Record record, Integer pageNum, Integer pageSize, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
@@ -183,6 +180,7 @@ public class BookController {
         }
     }
 
+    //确认是否归还
     @ResponseBody
     @RequestMapping("/returnConfirm")
     public Result returnConfirm(String id){
@@ -200,7 +198,6 @@ public class BookController {
     @PostMapping("/test1")
     public Result test1(@RequestBody Book book){
         Integer i = bookService.selectByBook(book);
-        System.out.println(book);
         if (i > 0){
             return new Result(true,"输入的isbn码已被占用");
         }else {

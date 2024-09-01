@@ -22,7 +22,7 @@ public interface BookService {
 
     Integer addBook(Book book);
 
-    Integer editBook(Book book,Record record);
+    Integer editBook(Book book);
 
     // 分页条件查询当前借阅信息
     PageResult searchBorrow(Record record, User user, Integer pageNum, Integer pageSize);

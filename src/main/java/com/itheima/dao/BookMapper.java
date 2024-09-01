@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public interface BookMapper{
     //首页新书推荐功能
-    @Select("SELECT * from book where book_status != '2' order by book_uploadtime DESC")
+    @Select("SELECT * from book order by book_uploadtime DESC")
     @Results(id = "BookMap",value = {
             //id字段为false，表示不是主键
             @Result(id = true,column = "book_id",property = "id"),
@@ -51,7 +51,7 @@ public interface BookMapper{
     //增删改查完都要查询图书
     @Select("        <script>\n" +
             "            select * from book\n"+
-            "            where book_status !='2'"+
+            "            where book_status != 3 "+
             "                <if test=\"name != null and name.trim() != ''\">\n" +
             "                    AND book_name like concat('%',#{name},'%')\n" +
             "                </if>\n" +

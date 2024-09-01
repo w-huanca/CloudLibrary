@@ -122,6 +122,7 @@ public class UserController {
         }
     }
 
+    //登录功能
     @RequestMapping("/login")
     public String login(User user, HttpServletRequest request) {
         User dbUser = userService.login(user);
@@ -218,6 +219,7 @@ public class UserController {
         }
         User user1 = (User) request.getSession().getAttribute("USER_SESSION");
         user.setId(user1.getId());
+        user.setPassword(user1.getPassword());
         Integer i = userService.selectByEditProfile(user);
         try {
             if(i == 0){

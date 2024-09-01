@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer editUser(User user) {
-        System.out.println(user);
         return userMapper.editUser(user);
     }
 

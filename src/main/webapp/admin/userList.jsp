@@ -13,7 +13,6 @@
     <script   charset="UTF-8"  type="text/javascript" src="${pageContext.request.contextPath}/js/pagination.js"></script>
     <script   charset="UTF-8"  type="text/javascript" src="${pageContext.request.contextPath}/js/my.js"></script>
     <link rel="icon" type="image/x-ico" href="${pageContext.request.contextPath}/img/logo.jpg"/>
-
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -71,15 +70,13 @@
                         <c:if test="${user.status ==1}">禁用</c:if>
                     </td>
                     <td class="text-center">
-                            <c:if test="${user.status ==0}">
-                            <c:if test="${USER_SESSION.role =='ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        data-target="#addOrEditModal" onclick="findUserById(${user.id},'edit')"> 编辑
-                                </button>
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        onclick="findUserById(${user.id},'delete')"> 删除
-                                </button>
-                            </c:if>
+                        <c:if test="${USER_SESSION.role =='ADMIN'}">
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                    data-target="#addOrEditModal" onclick="findUserById(${user.id},'edit')"> 编辑
+                            </button>
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                    onclick="findUserById(${user.id},'delete')"> 删除
+                            </button>
                         </c:if>
                     </td>
                 </tr>

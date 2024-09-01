@@ -1,17 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8"  language="java" isELIgnored="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/JavaScript;charset=utf-8" />
+    <meta http-equiv="content-type" content="text/JavaScript;charset=utf-8"/>
     <title>云借阅-图书管理系统</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/AdminLTE.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-    <script  charset="UTF-8"  type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script  charset="UTF-8" type="text/javascript" src="${pageContext.request.contextPath}/js/pagination.js"></script>
-    <script  charset="UTF-8" type="text/javascript" src="${pageContext.request.contextPath}/js/my.js"></script>
+    <script charset="UTF-8" type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+    <script charset="UTF-8" type="text/javascript" src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script charset="UTF-8" type="text/javascript" src="${pageContext.request.contextPath}/js/my.js"></script>
     <link rel="icon" type="image/x-ico" href="${pageContext.request.contextPath}/img/logo.jpg"/>
 
 </head>
@@ -53,23 +53,21 @@
                     <c:if test="${book.status ==2}">已下架</c:if>
                 </td>
                 <td class="text-center">
-                    <c:if test="${book.status ==0}">
-                        <c:choose>
-                            <c:when test="${USER_SESSION.role == 'ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        data-target="#addOrEditModal" onclick="findBookById(${book.id},'edit')"> 编辑
-                                </button>
-                            </c:when>
-                            <c:when test="${USER_SESSION.role == 'USER'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#borrowModal"
-                                        onclick="findBookById(${book.id},'borrow')"> 借阅
-                                </button>
-                            </c:when>
-                        </c:choose>
-
+                    <c:if test="${USER_SESSION.role == 'ADMIN'}">
+                        <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                data-target="#addOrEditModal" onclick="findBookById(${book.id},'edit')"> 编辑
+                        </button>
                     </c:if>
-                    <c:if test="${book.status ==1 ||book.status ==2}">
-                        <button type="button" class="btn bg-olive btn-xs" disabled="true">借阅</button>
+                    <c:if test="${USER_SESSION.role == 'USER'}">
+                        <c:if test="${book.status == 0}">
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                    data-target="#borrowModal"
+                                    onclick="findBookById(${book.id},'borrow')"> 借阅
+                            </button>
+                        </c:if>
+                        <c:if test="${book.status == 1 ||book.status == 2}">
+                            <button type="button" class="btn bg-olive btn-xs" disabled="true">借阅</button>
+                        </c:if>
                     </c:if>
                 </td>
             </tr>
@@ -105,18 +103,21 @@
                         </tr>
                         <tr>
                             <td>书籍页数</td>
-                            <td><input class="form-control" placeholder="书籍页数" name="pagination" id="ebpagination"></td>
+                            <td><input class="form-control" placeholder="书籍页数" name="pagination" id="ebpagination">
+                            </td>
                             <td>书籍价格<br/></td>
                             <td><input class="form-control" placeholder="书籍价格" name="price" id="ebprice"></td>
                         </tr>
                         <tr>
                             <td>库存量</td>
-                            <td><input class="form-control" placeholder="书籍库存量" name="stockpile" id="estockpile"></td>
+                            <td><input class="form-control" placeholder="书籍库存量" name="stockpile" id="estockpile">
+                            </td>
                             <td>上架状态</td>
                             <td>
-                                <select class="form-control" id="ebstatus" name="status" >
+                                <select class="form-control" id="ebstatus" name="status">
                                     <option value="0">上架</option>
-                                    <option value="3">下架</option>
+                                    <option value="1">无库存</option>
+                                    <option value="2">下架</option>
                                 </select>
                             </td>
                         </tr>
@@ -124,13 +125,15 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="aoe" disabled onclick="addOrEdit()">保存
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="aoe" disabled
+                        onclick="addOrEdit()">保存
                 </button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
     </div>
-</div>.
+</div>
+.
 <!-- 数据展示内容区/ -->
 <%--引入存放模态窗口的页面--%>
 <jsp:include page="/admin/book_modal.jsp"/>

@@ -11,8 +11,8 @@ import java.io.IOException;
  * @time: 2024-03-06 13:33
  */
 // 编码过滤器
-@WebFilter(filterName = "encodingFilter",urlPatterns = "/*")
-public class EncodingConfig implements Filter{
+@WebFilter(filterName = "encodingFilter", urlPatterns = "/*")
+public class EncodingConfig implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

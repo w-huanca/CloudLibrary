@@ -22,7 +22,7 @@ public class jdbcConfig {
     private String password;
 
     @Bean("dataSource")
-    public DruidDataSource getDataSource(){
+    public DruidDataSource getDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName(driver);
         druidDataSource.setUsername(username);

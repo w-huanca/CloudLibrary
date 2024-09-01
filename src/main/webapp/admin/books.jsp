@@ -79,33 +79,29 @@
                     <td>${book.stockpile}</td>
                     <td>
                         <c:if test="${book.status ==0}">可借阅</c:if>
-                        <c:if test="${book.status ==1}">待归还</c:if>
+                        <c:if test="${book.status ==1}">无库存</c:if>
                         <c:if test="${book.status ==2}">已下架</c:if>
                     </td>
                     <td class="text-center">
-                        <c:if test="${book.status ==0}">
-                            <c:if test="${USER_SESSION.role != 'ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        data-target="#borrowModal" onclick="findBookById(${book.id},'borrow')"> 借阅
-                                </button>
-                            </c:if>
-                            <c:if test="${USER_SESSION.role =='ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        data-target="#addOrEditModal" onclick="findBookById(${book.id},'edit')"> 编辑
-                                </button>
-                            </c:if>
-                            <c:if test="${USER_SESSION.role =='ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                        onclick="DeleteBookById(${book.id})"> 删除
-                                </button>
-                            </c:if>
+                        <c:if test="${USER_SESSION.role =='ADMIN'}">
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                    data-target="#addOrEditModal" onclick="findBookById(${book.id},'edit')"> 编辑
+                            </button>
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                    onclick="DeleteBookById(${book.id})"> 删除
+                            </button>
                         </c:if>
-                        <c:if test="${USER_SESSION.role =='USER'}">
-                            <c:if test="${book.status ==1 ||book.status ==2}">
+                        <c:if test="${USER_SESSION.role == 'USER'}">
+                            <c:if test="${book.status == 0}">
+                                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
+                                        data-target="#borrowModal"
+                                        onclick="findBookById(${book.id},'borrow')"> 借阅
+                                </button>
+                            </c:if>
+                            <c:if test="${book.status == 1 ||book.status == 2}">
                                 <button type="button" class="btn bg-olive btn-xs" disabled="true">借阅</button>
                             </c:if>
                         </c:if>
-
                     </td>
                 </tr>
             </c:forEach>
@@ -159,7 +155,8 @@
                             <td>
                                 <select class="form-control" id="ebstatus" name="status" >
                                     <option value="0">上架</option>
-                                    <option value="3">下架</option>
+                                    <option value="1">无库存</option>
+                                    <option value="2">下架</option>
                                 </select>
                             </td>
                         </tr>

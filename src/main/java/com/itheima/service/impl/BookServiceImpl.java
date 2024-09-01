@@ -31,8 +31,7 @@ public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;   //Mybaits的配置文件会自动导入这个包，Spring这个配置文件却找不到这个文件
     @Autowired
     private RecordMapper recordMapper;
-    @Autowired
-    private RecordService recordService;
+
     /**
      * @description:
      * @param pageNum 当前页码
@@ -57,24 +56,43 @@ public class BookServiceImpl implements BookService {
     public Integer borrowBook(Book book, User user, String returnTime, Record record) {
         // 根据id查询出需要借阅的完整的图书信息
         Book findbook = bookMapper.findById(book.getId().toString());
-        // 设置所借阅的图书库存量-1
-        book.setStockpile(findbook.getStockpile()-1);
-        // 当库存量为0时图书状态为待归还
+
+        // 检查图书库存量是否大于0
+        if (findbook.getStockpile() > 0) {
+            // 设置所借阅的图书库存量-1
+            book.setStockpile(findbook.getStockpile() - 1);
+        } else {
+            // 当库存量小于等于0时，直接返回错误码表示无法借书
+            return -1;
+        }
+
+        // 当库存量为0时图书状态为无库存
         if (book.getStockpile() == 0) {
             book.setStatus("1");
         }
+
+        // 更新图书信息
         bookMapper.editBook(book);
+
+        // 设置借阅记录
         record.setBookname(book.getName());
         record.setBookisbn(book.getIsbn());
+
         // 设置当天为借阅时间
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         record.setBorrowTime(dateFormat.format(new Date()));
-//        // 设置归还时间
+
+        // 设置归还时间
         record.setRemandTime(returnTime.toString());
+
         // 设置借阅人为当前登录用户
         record.setBorrower(user.getName());
+
+        // 添加借阅记录
         return recordMapper.addRecord(record);
     }
+
+
 //    private Record setRecord(Book book){
 //        Record record = new Record();
 //        record.setBookname(book.getName());
@@ -105,7 +123,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Integer editBook(Book book,Record record) {
+    public Integer editBook(Book book) {
         return bookMapper.editBook(book);
     }
 
@@ -147,7 +165,6 @@ public class BookServiceImpl implements BookService {
     public Integer returnConfirm(String id) {
         // 根据记录id查询借阅的完整信息
         Record record = recordMapper.findById(id);
-//        Record record = this.setRecord(book);   // 将book实体同属性数值赋值给record实体
         record.setStatus("2");
         // 设置当天为归还时间
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
